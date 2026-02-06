@@ -1,2 +1,27 @@
-# Arbol_filogenetico
-This project performs a complete bioinformatics pipeline to analyze genetic similarities between SARS-CoV-2 variants from different countries. Starting from GenBank accession numbers, the workflow downloads sequences, aligns them, computes nucleotide composition, and constructs a phylogenetic tree using distance-based methods.
+# Phylogenetic Analysis of SARS-CoV-2 Variants by Country
+
+##  Objectives
+
+- Retrieve viral genome sequences from GenBank
+- Perform multiple sequence alignment
+- Analyze nucleotide composition across countries
+- Construct a phylogenetic tree using Neighbor-Joining
+- Visualize evolutionary relationships between variants
+
+---
+
+##  Technologies & Libraries
+
+- **R**
+- `Biostrings`
+- `DECIPHER`
+- `seqinr`
+- `ape`
+- `ggplot2`
+- `viridis`
+
+---
+
+## 📂 Project Structure
+
+
