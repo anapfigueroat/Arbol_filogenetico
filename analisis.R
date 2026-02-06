@@ -1,29 +1,20 @@
----
-title: "Árbol Filogenético de Variantes de COVID-19 en 20 países"
-author: "Ana Paula Figueroa - A00835792"
-date: "2026-02-06"
-output: html_document
----
+#############################################################
+# Árbol Filogenético de Variantes de COVID-19 por País
+# Autor: Ana Paula Figueroa - A00835792
+# Fecha: 2026-02-06
+#############################################################
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-## Configuración Inicial y Librerías
-```{r}
-library(Biostrings) 
-library(seqinr)  
-library(adegenet)  
-library(ape)  
-library(ggtree)  
-library(DECIPHER)  
-library(viridis)  
-library(ggplot2) 
-library("seqinr") 
-```
+# Librerias
+library(Biostrings)
+library(seqinr)
+library(ape)
+library(DECIPHER)
+library(ggplot2)
+library(viridis)
 
-## Descarga de secuencias
-```{r}
+
+# Descarga de secuencias
 # Accesiones GenBank de variantes SARS-CoV-2
 virus_ids <- c("OQ871050","OM918221","ON434752","OX448653","ON583472",
                "LC654482","OL966992","MW491232","OP777347","OQ059020",
@@ -42,15 +33,9 @@ names(virus_sequences) <- c("EU","India","Francia","Alemania","Brasil",
 
 # Guardar en formato FASTA
 write.dna(virus_sequences, file = "virus_seqs.fasta",
-          format = "fasta", nbcol = 6, colsep = " ", colw = 10) 
+          format = "fasta", nbcol = 6, colsep = " ", colw = 10)
 
-
-```
-
-
-## Lectura y alineamiento
-```{r}
-
+# Lectura y alineamiento
 # Leer FASTA como objeto Biostrings
 virus_raw <- readDNAStringSet("virus_seqs.fasta")
 
@@ -66,12 +51,7 @@ writeXStringSet(virus_aligned, file = "virus_aligned.fasta")
 # Convertir a formato compatible con ape
 virus_alignment <- read.alignment("virus_aligned.fasta", format = "fasta")
 
-```
-
-
-## Longitud de secuencias
-```{r}
-
+# Longitud de secuencias
 # Función para calcular longitud real de una secuencia
 calc_length <- function(seq) {
   seq <- gsub("\n| ", "", seq)
@@ -86,11 +66,7 @@ for (i in seq_along(fasta_seq)) {
   cat(names(fasta_seq)[i], "-", calc_length(fasta_seq[[i]]), "\n")
 }
 
-```
-
-## Composicion de bases
-```{r}
-
+# Composicion de bases
 # Función que calcula porcentajes A, G, T, C
 base_percentages <- function(seq) {
   seq <- tolower(gsub("\n| ", "", seq))
@@ -108,12 +84,7 @@ base_df_long <- reshape2::melt(base_df, id.vars = "Pais",
                                variable.name = "Base",
                                value.name = "Porcentaje")
 
-```
-
-
-## Grafica de composicion de bases
-```{r}
-
+# Grafica de composicion de bases
 ggplot(base_df_long, aes(x = Pais, y = Porcentaje, fill = Base)) +
   geom_bar(stat = "identity", position = "dodge") +
   scale_fill_viridis_d() +
@@ -123,11 +94,7 @@ ggplot(base_df_long, aes(x = Pais, y = Porcentaje, fill = Base)) +
        y = "Porcentaje (%)") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-```
-
-## Matriz de distancias y arbol filogenetica
-```{r}
-
+# Matriz de distancias y arbol filogenetico
 # Calcular matriz de distancia (basada en similitud)
 dist_matrix <- dist.alignment(virus_alignment, matrix = "identity")
 
@@ -137,14 +104,6 @@ virus_tree <- nj(dist_matrix)
 # Ordenar visualmente el árbol
 virus_tree <- ladderize(virus_tree)
 
-```
-
-
-## Visualizacion del arbol
-```{r}
-
+# Visualizacion del arbol
 plot(virus_tree, cex = 0.8)
 title("Árbol filogenético de SARS-CoV-2 en 20 países")
-
-```
-
