@@ -20,8 +20,6 @@
 - `ggplot2`
 - `viridis`
 
----
 
-## Project Structure
 
 
