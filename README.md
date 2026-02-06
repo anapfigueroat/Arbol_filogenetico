@@ -22,6 +22,6 @@
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 
